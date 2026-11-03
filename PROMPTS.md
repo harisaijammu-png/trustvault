@@ -112,6 +112,20 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1) (link will resolve after push); empty import removal was already included in `af0ea95`.
 
+## 2026-11-04 — Deployment configuration and secret-safe startup errors
+
+**Request:** Diagnose the failed Render deployment using its pasted logs.
+
+**Output:** Render successfully installed dependencies, passed all 21 tests, and built the project. Startup failed because DATABASE_URL contained only the connection string's ending rather than a full PostgreSQL URL.
+
+**What was wrong:** The assistant's earlier screenshot review could not confirm the whole value and the guided setup did not catch the incomplete copy before deployment. Also, the raw Node URL parser exception included its input field. A malformed value containing a password could therefore leak into deployment logs.
+
+**Correction:** Give explicit instructions to replace DATABASE_URL with Neon's complete copied connection string, without psql/quotes. Catch parser exceptions and emit fixed guidance without the supplied value or original error cause. Check required connection components. Added a test covering truncated input, command-wrapped input, wrong scheme and missing credentials.
+
+**Verification:** The first local full-suite attempt was blocked by restricted loopback connections (EACCES). Rerunning with local-server access passed all 22 test results, including the secret-safe configuration test. The user still needs to correct the private Render value and redeploy; no successful live startup is claimed.
+
+**Correction commit:** Pending current fix commit; will link the actual commit after creation.
+
 ## Reused instructions/context
 
 - Challenge email and official pages, summarized in REQUIREMENTS.md.

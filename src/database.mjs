@@ -28,8 +28,16 @@ export async function openDatabase(dataDir, databaseUrl) {
 }
 
 export function postgresConnectionOptions(databaseUrl) {
-  const url = new URL(databaseUrl);
-  if (!['postgres:', 'postgresql:'].includes(url.protocol)) throw new Error('DATABASE_URL must be a PostgreSQL URL');
+  let url;
+  try {
+    url = new URL(databaseUrl);
+  } catch {
+    // URL parser errors include the original input, which may contain a password.
+    throw new Error('DATABASE_URL is invalid. Copy the complete Neon connection string starting with postgresql://, without psql or surrounding quotes.');
+  }
+  if (!['postgres:', 'postgresql:'].includes(url.protocol) || !url.hostname || !url.username || !url.password || url.pathname.length < 2) {
+    throw new Error('DATABASE_URL must be a complete PostgreSQL connection string with host, database and credentials.');
+  }
   // A URL's ssl=false/sslmode options can override pg's explicit SSL object.
   // This app needs no URL tuning parameters; discard all of them.
   url.search = '';

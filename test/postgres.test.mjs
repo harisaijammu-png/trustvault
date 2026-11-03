@@ -8,6 +8,18 @@ import { postgresAdapter, postgresConnectionOptions } from '../src/database.mjs'
 import { Client } from 'pg';
 import { createVault } from '../src/app.mjs';
 
+test('invalid database configuration reports guidance without exposing supplied credentials', () => {
+  for (const input of ['require&channel_binding=require', "psql 'postgresql://demo:DO-NOT-LOG-THIS@db.example/vault'", 'https://demo:DO-NOT-LOG-THIS@db.example/vault', 'postgresql://db.example/']) {
+    let error;
+    try { postgresConnectionOptions(input); } catch (caught) { error = caught; }
+    assert(error instanceof Error);
+    assert.match(error.message, /DATABASE_URL/);
+    assert.equal(error.message.includes('DO-NOT-LOG-THIS'), false);
+    assert.equal(Object.hasOwn(error, 'input'), false);
+    assert.equal(Object.hasOwn(error, 'cause'), false);
+  }
+});
+
 test('PostgreSQL URL options cannot disable TLS certificate verification', () => {
   for (const query of ['ssl=false', 'sslmode=disable', 'sslmode=no-verify', 'sslmode=require&sslrootcert=attacker']) {
     const options = postgresConnectionOptions(`postgresql://demo:fake-password@db.example/vault?${query}`);

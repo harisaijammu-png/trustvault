@@ -1,4 +1,13 @@
-# Verification record — 2026-11-03
+# Verification record
+
+## 2026-11-04 deployment diagnosis
+
+- Render logs confirm the 3 November version built successfully with all 21 tests passing on Linux/Node 25.8.1.
+- Startup failed because the configured DATABASE_URL was an incomplete suffix. Private environment correction and live startup remain pending.
+- Hardened invalid-URL errors to avoid echoing potentially sensitive input; added malformed-configuration coverage.
+- Updated local suite: 22 results passed after allowing connections to the tests' temporary loopback servers. Syntax checks passed.
+
+## 2026-11-03 baseline
 
 ## Completed locally
 
