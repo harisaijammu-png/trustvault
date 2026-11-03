@@ -14,7 +14,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** Both pages were visibly loaded and their complete requirements inspected. The actual security work and security-specific entries remain pending.
 
-**Correction commit:** `65ac38c` (local; remote link pending).
+**Correction commit:** [65ac38c](https://github.com/harisaijammu-png/trustvault/commit/65ac38c) (local; link will resolve after push).
 
 ## 2026-11-03 — Server access review
 
@@ -28,7 +28,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** The paused-body disable test passed in the first security test run.
 
-**Correction commit:** `af0ea95` (local; remote link pending). The PostgreSQL adaptation now authenticates after bounded body receipt under a request-decision queue.
+**Correction commit:** [af0ea95](https://github.com/harisaijammu-png/trustvault/commit/af0ea95) (local; link will resolve after push). The PostgreSQL adaptation now authenticates after bounded body receipt under a request-decision queue.
 
 ## 2026-11-03 — Upload size and encoding validation
 
@@ -40,7 +40,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Correction:** Bound encoded length first and validate decoding using a canonical base64 round-trip, avoiding nested repetition. The boundary test now returns 400 and passes.
 
-**Correction commit:** `af0ea95` (local implementation containing the fix; remote link pending).
+**Correction commit:** [af0ea95](https://github.com/harisaijammu-png/trustvault/commit/af0ea95) (local implementation containing the fix; link will resolve after push).
 
 ## 2026-11-03 — Hosting budget and persistent storage
 
@@ -54,7 +54,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** SQLite security tests and embedded PostgreSQL integration pass. Actual cloud connection/setup is still pending.
 
-**Correction commit:** Pending PostgreSQL/deployment commit.
+**Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1) (local commit; link will resolve after push).
 
 ## 2026-11-03 — PostgreSQL audit gaps and grant aliases (security/audit)
 
@@ -68,7 +68,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** Integration passes. Triggers refuse ordinary changes. Suffix deletion still needs an independently retained checkpoint; no claim is made that chaining alone prevents it.
 
-**Correction commit:** Pending PostgreSQL/deployment commit.
+**Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1) (local commit; link will resolve after push).
 
 ## 2026-11-03 — Mutation harness cleanup and discovery
 
@@ -82,7 +82,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** Four intended mutations are CAUGHT through assertion failures; the real source passes. Only temporary copies are modified.
 
-**Correction commit:** Pending PostgreSQL/deployment commit.
+**Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1) (local commit; link will resolve after push).
 
 ## 2026-11-03 — Production dependencies and TLS URL overrides (security)
 
@@ -96,7 +96,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** TLS configuration tests pass; official node-postgres documentation confirms URL options can override ssl. Actual Neon network/TLS validation remains pending setup.
 
-**Correction commit:** Pending PostgreSQL/deployment commit.
+**Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1) (local commit; link will resolve after push).
 
 ## 2026-11-03 — Browser checks and sharing defaults
 
@@ -110,7 +110,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** Local screenshots in docs/screenshots. These are not live or mobile-device checks.
 
-**Correction commit:** Pending PostgreSQL/deployment commit; empty import removal was already included in `af0ea95`.
+**Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1) (link will resolve after push); empty import removal was already included in `af0ea95`.
 
 ## Reused instructions/context
 

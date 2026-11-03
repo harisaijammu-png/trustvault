@@ -13,6 +13,8 @@
 - Browser: hostile category `<img src=x onerror=alert(1)>` was displayed literally, and DOM inspection found no injected image elements. Restored category to Demo afterwards.
 - Screenshots: `docs/screenshots/vault-desktop.png`, `sharing.png`, `xss-literal-text.png`. The sharing screenshot records a test grant that was subsequently revoked.
 
+- Fresh export of committed source: npm ci --include=dev installed locked dependencies successfully; syntax checks and all 21 test results passed with zero vulnerabilities reported by npm audit. This was a clean source export, not a cloud deployment.
+
 ## Still pending
 
 - Private GitHub remote and push.
