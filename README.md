@@ -2,7 +2,7 @@
 
 Named document sharing with server-enforced read/edit grants, immediate revocation for subsequent requests, and an HMAC-chained audit record. Built for the Snovasys Fresher Hiring Challenge 2026 with AI assistance documented in [PROMPTS.md](PROMPTS.md).
 
-**Current status:** implemented and tested locally. No GitHub remote or live deployment has been configured yet. Live PostgreSQL connectivity, private-window and second-device checks, the candidate's demo video, and final submission remain outstanding. Do not describe these as complete.
+**Current status:** implemented and tested locally. The GitHub repository exists and is verified private; its remote is configured, but upload is awaiting GitHub device authorization. No live deployment exists yet. Live PostgreSQL connectivity, private-window and second-device checks, the candidate's demo video, and final submission remain outstanding. Do not describe these as complete.
 
 ## Run locally
 

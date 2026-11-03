@@ -20,7 +20,7 @@ No public sharing links, registration/reset UI, online previews, antivirus servi
 
 ## Current unfinished items
 
-- Private GitHub remote/push and visibility-timing clarification.
+- GitHub device authorization/push and visibility-timing clarification (repository verified private, remote configured).
 - Neon/Render setup and live connectivity/TLS verification.
 - Live restart durability, private-browser and second-device checks.
 - Independent audit checkpoint retention and production backup recovery exercise.

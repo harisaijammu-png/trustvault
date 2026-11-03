@@ -11,17 +11,17 @@
 - SQLite backup script executed successfully and created an ignored snapshot plus checkpoint. Full restore has not yet been rehearsed.
 - Browser: owner sign-in, document details, named viewer read grant, revoke, activity records, category editing and session continuity after local server restart.
 - Browser: hostile category `<img src=x onerror=alert(1)>` was displayed literally, and DOM inspection found no injected image elements. Restored category to Demo afterwards.
-- Screenshots: `docs/screenshots/vault-desktop.png`, `sharing.png`, `xss-literal-text.png`. The sharing screenshot records a test grant that was subsequently revoked.
+- Screenshots: `docs/screenshots/vault-narrow.png`, `sharing.png`, `xss-literal-text.png`. The sharing screenshot records a test grant that was subsequently revoked.
 
 - Fresh export of committed source: npm ci --include=dev installed locked dependencies successfully; syntax checks and all 21 test results passed with zero vulnerabilities reported by npm audit. This was a clean source export, not a cloud deployment.
 
 ## Still pending
 
-- Private GitHub remote and push.
+- Private GitHub repository and remote configured; push pending device authorization. The initially empty repository was public, corrected to private before any code upload. No source was exposed.
 - Live Render/Neon connection including driver TLS behavior against a real server.
 - Live HTTPS cookies, headers, startup/restart durability and deployed security flows.
 - Private-window / another physical device checks.
-- Responsive mobile viewport/manual phone checks.
+- Local narrow layout inspected at the browser's natural 510px width; a real phone and additional mobile widths still need checking.
 - PostgreSQL backup/export and recovery drill; independently retained audit checkpoints.
 - Candidate walkthrough/code exercise, actual video, profile and final submission.
 
