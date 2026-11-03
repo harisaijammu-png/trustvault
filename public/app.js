@@ -6,6 +6,7 @@ let documents = [];
 function notice(message = '', error = false) {
   $('#notice').textContent = message;
   $('#notice').className = error ? 'error' : '';
+  $('#dialog-notice').textContent = $('#document-dialog').open ? message : '';
 }
 async function api(path, { method = 'GET', body } = {}) {
   const response = await fetch(path, { method, credentials: 'same-origin', headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...(csrf ? { 'X-CSRF-Token': csrf } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
@@ -139,6 +140,7 @@ async function openDocument(id) {
     }
     const form = element('form');
     const personLabel = element('label', '', 'Person'); const person = element('select'); person.name = 'userId'; person.required = true;
+    const placeholder = element('option', '', 'Choose a named person'); placeholder.value = ''; placeholder.disabled = true; placeholder.selected = true; person.append(placeholder);
     for (const u of users.filter(u => u.id !== user.id && u.active)) { const option = element('option', '', `${u.name} (${u.email})`); option.value = u.id; person.append(option); }
     personLabel.append(person); form.append(personLabel);
     const permissionLabel = element('label', '', 'Permission'); const permission = element('select'); permission.name = 'permission';

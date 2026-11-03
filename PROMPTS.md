@@ -14,7 +14,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** Both pages were visibly loaded and their complete requirements inspected. The actual security work and security-specific entries remain pending.
 
-**Correction commit:** Pending initial repository setup.
+**Correction commit:** `65ac38c` (local; remote link pending).
 
 ## 2026-11-03 — Server access review
 
@@ -28,7 +28,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** The paused-body disable test passed in the first security test run.
 
-**Correction commit:** Pending implementation commit.
+**Correction commit:** `af0ea95` (local; remote link pending). The PostgreSQL adaptation now authenticates after bounded body receipt under a request-decision queue.
 
 ## 2026-11-03 — Upload size and encoding validation
 
@@ -38,6 +38,84 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **What was wrong:** The 5 MB boundary test returned 500 instead of 400. The validator performed an unnecessarily expensive regex check on a multi-megabyte string. Fifteen checks passed but the upload boundary check failed; this was not a successful test run.
 
-**Correction:** In progress: bound encoded length first and validate decoding using a canonical base64 round-trip, avoiding the nested repetition.
+**Correction:** Bound encoded length first and validate decoding using a canonical base64 round-trip, avoiding nested repetition. The boundary test now returns 400 and passes.
 
-**Correction commit:** Pending fix.
+**Correction commit:** `af0ea95` (local implementation containing the fix; remote link pending).
+
+## 2026-11-03 — Hosting budget and persistent storage
+
+**Request:** Build and deploy a project the candidate can learn using their Render experience.
+
+**Output:** Initial storage was SQLite, requiring a persistent Render disk in deployment.
+
+**What was wrong:** The assistant chose storage before confirming the budget. The candidate requires completely free hosting. Render's temporary filesystem cannot preserve the vault across restarts; persistent disks require paid services.
+
+**Correction:** Added hosted PostgreSQL support, retained SQLite for local development, and made production refuse startup without DATABASE_URL. Prepared free Render + Neon configuration.
+
+**Verification:** SQLite security tests and embedded PostgreSQL integration pass. Actual cloud connection/setup is still pending.
+
+**Correction commit:** Pending PostgreSQL/deployment commit.
+
+## 2026-11-03 — PostgreSQL audit gaps and grant aliases (security/audit)
+
+**Request:** Preserve permissions and audit guarantees while adapting storage.
+
+**Output:** The initial verifier required gapless SQL audit sequence IDs; the grants query used an unquoted userId alias.
+
+**What was wrong:** PostgreSQL can consume identity values in rolled-back transactions, creating legitimate gaps. PostgreSQL also lowercases unquoted aliases, breaking clients expecting userId for revocation.
+
+**Correction:** Verify the linked HMAC records without a gapless-ID assumption and quote the alias. The PostgreSQL integration test rolls back an audit insertion, appends a new event, verifies the chain, and checks the grant's userId field.
+
+**Verification:** Integration passes. Triggers refuse ordinary changes. Suffix deletion still needs an independently retained checkpoint; no claim is made that chaining alone prevents it.
+
+**Correction commit:** Pending PostgreSQL/deployment commit.
+
+## 2026-11-03 — Mutation harness cleanup and discovery
+
+**Request:** Prove tests fail when security checks are removed.
+
+**Output:** The first HMAC mutation let a tampered app start unexpectedly, leaving a database handle open. The later generic node --test command also discovered the mutation script itself.
+
+**What was wrong:** Windows cleanup errors obscured the intended assertion failure, and test discovery attempted recursive test runs.
+
+**Correction:** Close unexpectedly successful startup in the rejection test; restrict normal tests to test/*.test.mjs; copy the adapter into mutation fixtures; update the paused-body mutation to simulate cached authentication correctly.
+
+**Verification:** Four intended mutations are CAUGHT through assertion failures; the real source passes. Only temporary copies are modified.
+
+**Correction commit:** Pending PostgreSQL/deployment commit.
+
+## 2026-11-03 — Production dependencies and TLS URL overrides (security)
+
+**Request:** Review free deployment and connection security before upload.
+
+**Output:** Initial Render configuration used npm ci with NODE_ENV=production; PostgreSQL configuration removed only a short list of TLS URL parameters.
+
+**What was wrong:** Production installation can omit the development dependency required by PostgreSQL tests. A URL's ssl=false can also replace the driver's explicit SSL settings even if sslmode was removed.
+
+**Correction:** Build with npm ci --include=dev. Discard database URL query parameters and configure certificate-verifying TLS explicitly. Tests construct real pg Clients with ssl=false, sslmode=disable/no-verify and certificate override variants.
+
+**Verification:** TLS configuration tests pass; official node-postgres documentation confirms URL options can override ssl. Actual Neon network/TLS validation remains pending setup.
+
+**Correction commit:** Pending PostgreSQL/deployment commit.
+
+## 2026-11-03 — Browser checks and sharing defaults
+
+**Request:** Verify the interface and make named sharing explicit.
+
+**Output:** The initial sharing select defaulted to the administrator; error notices appeared only behind the document modal. CSS also had an empty import.
+
+**What was wrong:** A default recipient invites accidental sharing; modal users could miss failures; the import served no purpose.
+
+**Correction:** Require explicit person selection, add in-dialog status, remove the import. Browser checks exercised login, details, grant/revoke, activity and category editing. Hostile category HTML was saved, shown literally with zero injected image elements, then restored to Demo.
+
+**Verification:** Local screenshots in docs/screenshots. These are not live or mobile-device checks.
+
+**Correction commit:** Pending PostgreSQL/deployment commit; empty import removal was already included in `af0ea95`.
+
+## Reused instructions/context
+
+- Challenge email and official pages, summarized in REQUIREMENTS.md.
+- DESIGN.md: explicit capabilities, no public file URLs, honest audit/revocation limits.
+- Negative test matrix and mutation checks reused after storage/security changes.
+- Candidate constraints: language basics, learning support, existing GitHub/Render experience, completely free hosting.
+- This log describes AI-generated code and assistant review/tests. It does not claim the candidate independently found every issue. No dates, mistakes, understanding or deployments are invented.

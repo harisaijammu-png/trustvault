@@ -18,7 +18,7 @@ test('TrustVault server security and functionality', async t => {
   await new Promise(resolve => app.server.listen(0, '127.0.0.1', resolve));
   const base = `http://127.0.0.1:${app.server.address().port}`;
   const raw = new DatabaseSync(join(dir, 'trustvault.db'));
-  t.after(async () => { await new Promise(resolve => app.server.close(resolve)); raw.close(); app.close(); rmSync(dir, { recursive: true, force: true }); });
+  t.after(async () => { await new Promise(resolve => app.server.close(resolve)); raw.close(); await app.close(); rmSync(dir, { recursive: true, force: true }); });
   async function request(path, session, method = 'GET', body, headers = {}) {
     const response = await fetch(`${base}${path}`, { method, headers: { Origin: ORIGIN, ...(session ? { Cookie: session.cookie, 'X-CSRF-Token': session.csrf } : {}), ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}), ...headers }, body: body === undefined ? undefined : JSON.stringify(body) });
     const data = (response.headers.get('content-type') || '').includes('application/json') ? await response.json() : await response.text();
@@ -167,8 +167,11 @@ test('TrustVault server security and functionality', async t => {
     raw.exec("CREATE TRIGGER test_audit_failure BEFORE INSERT ON audit BEGIN SELECT RAISE(ABORT, 'simulated audit storage failure'); END");
     assert.equal((await request('/api/documents', fresh, 'POST', file())).status, 500);
     assert.equal(raw.prepare('SELECT count(*) AS n FROM documents').get().n, before);
+    const failedDownload = await request(`/api/documents/${id}/content`, fresh);
+    assert.equal(failedDownload.status, 500);
+    assert.equal(failedDownload.data.error, 'Service unavailable. Please retry.');
     raw.exec('DROP TRIGGER test_audit_failure');
-    assert.equal(app.verifyAudit().valid, true);
+    assert.equal((await app.verifyAudit()).valid, true);
     assert.equal((await request(`/api/documents/${id}`, fresh, 'DELETE')).status, 200);
     assert.equal((await request(`/api/documents/${id}/content`, fresh)).status, 404);
     assert.equal(raw.prepare('SELECT count(*) AS n FROM grants WHERE document_id=?').get(id).n, 0);
@@ -183,7 +186,7 @@ test('TrustVault server security and functionality', async t => {
       copy.exec('DROP TRIGGER audit_no_update'); copy.exec("UPDATE audit SET event='{}' WHERE seq=1"); copy.close();
       await assert.rejects(async () => {
         const unexpected = await createVault({ dataDir: copyDir, origin: ORIGIN, auditKey: KEY });
-        unexpected.close(); // Also release handles when mutation testing disables the rejection.
+        await unexpected.close(); // Also release handles when mutation testing disables the rejection.
       }, /Audit verification failed/);
     } finally { rmSync(copyDir, { recursive: true, force: true }); }
   });
@@ -194,4 +197,24 @@ test('TrustVault server security and functionality', async t => {
     for (let i = 0; i < 12; i++) status = (await request('/api/login', null, 'POST', { email: 'unknown@trustvault.demo', password: 'wrong' })).status;
     assert.equal(status, 429);
   });
+});
+
+test('document quota is enforced without mutating existing documents', async t => {
+  const dir = mkdtempSync(join(tmpdir(), 'trustvault-quota-'));
+  const app = await createVault({ dataDir: dir, origin: ORIGIN, auditKey: KEY, seedPassword: PASSWORD });
+  await new Promise(resolve => app.server.listen(0, '127.0.0.1', resolve));
+  const base = `http://127.0.0.1:${app.server.address().port}`;
+  t.after(async () => { await new Promise(resolve => app.server.close(resolve)); await app.close(); rmSync(dir, { recursive: true, force: true }); });
+  const login = await fetch(`${base}/api/login`, { method: 'POST', headers: { Origin: ORIGIN, 'Content-Type': 'application/json' }, body: JSON.stringify({ email: 'alice@trustvault.demo', password: PASSWORD }) });
+  const { csrf } = await login.json(); const cookie = login.headers.get('set-cookie').split(';')[0];
+  for (let index = 0; index < 40; index++) {
+    const response = await fetch(`${base}/api/documents`, { method: 'POST', headers: { Origin: ORIGIN, 'Content-Type': 'application/json', Cookie: cookie, 'X-CSRF-Token': csrf }, body: JSON.stringify(file(`quota-${index}.txt`)) });
+    assert.equal(response.status, index < 39 ? 201 : 409); await response.arrayBuffer();
+  }
+  const listing = await fetch(`${base}/api/documents`, { headers: { Cookie: cookie } });
+  assert.equal((await listing.json()).documents.length, 40);
+});
+
+test('production rejects an accidental ephemeral SQLite deployment', async () => {
+  await assert.rejects(createVault({ production: true, origin: 'https://vault.test', auditKey: KEY }), /Production requires DATABASE_URL/);
 });

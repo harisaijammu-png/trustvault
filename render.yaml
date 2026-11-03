@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: trustvault
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run check && npm test
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_ORIGIN
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: AUDIT_KEY
+        generateValue: true
+      - key: DEMO_PASSWORD
+        sync: false
