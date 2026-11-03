@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TrustVault · Controlled access. Clear evidence.</title>
+  <link rel="stylesheet" href="/styles.css"><script src="/app.js" defer></script>
+</head>
+<body>
+  <header><a href="/" class="brand"><span class="mark">T</span> TrustVault</a><span class="tagline">Controlled access. Clear evidence.</span><div id="identity"></div></header>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <main>
+    <section id="login-view" class="login-layout">
+      <div class="intro"><p class="eyebrow">YOUR DOCUMENTS, WITH BOUNDARIES</p><h1>Share the file.<br>Keep control.</h1><p>Give named people the access they need. Take it back at any time. Keep a record of what happened.</p><div class="principles"><span>01 &nbsp; Named access</span><span>02 &nbsp; Immediate revocation</span><span>03 &nbsp; Verifiable activity</span></div><p class="fine">Demonstration environment. Use fictional documents only.</p></div>
+      <form id="login-form" class="panel"><p class="eyebrow">WELCOME BACK</p><h2>Open your vault</h2><label>Email<input name="email" type="email" required autocomplete="username" placeholder="alice@trustvault.demo"></label><label>Password<input name="password" type="password" required maxlength="256" autocomplete="current-password"></label><button type="submit">Sign in <span>→</span></button><p class="fine">Demo accounts: alice, bob, viewer, admin<br>All use <strong>@trustvault.demo</strong>. Ask the deployment owner for the demo password.</p></form>
+    </section>
+    <section id="vault-view" hidden>
+      <div class="page-heading"><div><p class="eyebrow">WORKSPACE / DOCUMENTS</p><h1>Your vault</h1><p id="role-note"></p></div><button id="logout" class="secondary">Sign out</button></div>
+      <nav aria-label="Workspace"><button id="documents-tab" class="tab active">Documents</button><button id="activity-tab" class="tab">Activity</button><button id="accounts-tab" class="tab" hidden>Accounts</button></nav>
+      <section id="documents-view">
+        <div class="stats"><div><span id="document-count">0</span><p>Visible documents <small>up to 200</small></p></div><div><span>5 MB</span><p>Maximum file size</p></div><div><span>Named</span><p>People, never public links</p></div></div>
+        <form id="upload-form" class="panel upload" hidden><div><h2>Add a document</h2><p class="fine">TXT, PDF, PNG or JPEG · maximum 5 MB · downloads only</p></div><label>File<input name="file" type="file" accept=".txt,.pdf,.png,.jpg,.jpeg" required></label><label>Category<input name="category" required maxlength="60" placeholder="e.g. Finance"></label><button type="submit">Upload document</button></form>
+        <form id="search-form" class="filters panel"><label>Name<input name="name" placeholder="Search documents" maxlength="120"></label><label>Owner<input name="owner" placeholder="Owner name" maxlength="120"></label><label>Category<input name="category" placeholder="Any category" maxlength="60"></label><label>From (UTC)<input type="date" name="from"></label><label>To (UTC)<input type="date" name="to"></label><button type="submit" class="secondary">Search</button></form>
+        <div id="document-list" class="document-grid"></div>
+      </section>
+      <section id="activity-view" hidden><div class="section-heading"><div><h2>Activity record</h2><p class="fine">Latest 200 events. Owners see their actions and activity on their current documents.</p></div><button id="refresh-activity" class="secondary">Refresh activity</button></div><div id="audit-tools" class="panel" hidden><h3>Verify the audit chain</h3><p>Check recorded evidence and download a checkpoint. Retain it somewhere independent of this server to help detect a later rollback.</p><button id="verify">Verify &amp; export checkpoint</button><pre id="verification" aria-live="polite"></pre></div><div class="table-wrap"><table><thead><tr><th>Time (local)</th><th>Actor</th><th>Action</th><th>Outcome</th><th>Target / detail</th></tr></thead><tbody id="audit-rows"></tbody></table></div></section>
+      <section id="accounts-view" hidden><h2>Account access</h2><p>Disabling an account immediately ends its sessions. Re-enabling requires signing in again.</p><div id="accounts-list" class="document-grid"></div></section>
+    </section>
+  </main>
+  <dialog id="document-dialog"><form method="dialog" class="dialog-heading"><h2 id="dialog-title">Document</h2><button class="icon-button" aria-label="Close document">×</button></form><div id="document-detail"></div></dialog>
+  <footer><span>TRUSTVAULT</span><span>Access is a decision. Every request.</span></footer>
+</body>
+</html>
