@@ -2,7 +2,7 @@
 
 Named document sharing with server-enforced read/edit grants, immediate revocation for subsequent requests, and an HMAC-chained audit record. Built for the Snovasys Fresher Hiring Challenge 2026 with AI assistance documented in [PROMPTS.md](PROMPTS.md).
 
-**Current status:** implemented and tested locally. The GitHub repository exists and is verified private; its remote is configured, but upload is awaiting GitHub device authorization. No live deployment exists yet. Live PostgreSQL connectivity, private-window and second-device checks, the candidate's demo video, and final submission remain outstanding. Do not describe these as complete.
+**Current status:** deployed at [TrustVault](https://trustvault-3wp4.onrender.com/). Code and real commit history are pushed to the private GitHub repository. On 4 November the candidate manually exercised upload, named sharing, direct download denial after revocation, file replacement, audit verification, account disable/re-enable, restart persistence and mobile access. These are candidate-run checks supported by screenshots/reports, not an automated penetration test. See [VERIFICATION.md](VERIFICATION.md) for exact evidence and remaining work.
 
 ## Run locally
 
@@ -25,7 +25,7 @@ Open http://localhost:3000. With no DATABASE_URL, the app creates `data/trustvau
 | viewer@trustvault.demo | Viewer | Learn-TrustVault-2026! |
 | admin@trustvault.demo | Administrator | Learn-TrustVault-2026! |
 
-These are deliberately shared demo accounts, never real staff accounts. Production requires an explicit DEMO_PASSWORD at first startup. **Before submission, put the chosen public demonstration password and actual live URL here.** Never reuse a personal password. Setting DEMO_PASSWORD again does not change an existing database's account passwords.
+These are deliberately shared demo accounts, never real staff accounts. Production requires an explicit DEMO_PASSWORD at first startup. **Before submission, add the actual live demonstration password here; the live URL is listed above.** Never reuse a personal password. Setting DEMO_PASSWORD again does not change an existing database's account passwords.
 
 ## What works
 
@@ -65,7 +65,7 @@ Run **one application instance** against a database. Request decisions are seria
 
 ## Verification
 
-`npm test` runs the cross-user security suite on SQLite and an integration flow on the embedded PGlite PostgreSQL engine (21 reported test results in the latest local run). PGlite exercises the PostgreSQL schema, SQL syntax, byte storage, named grants, search, revocation, audit triggers, and transaction/sequence behavior. It does **not** verify the live Neon network/TLS connection or Render deployment. Those must still be checked after configuration.
+`npm test` runs the cross-user security suite on SQLite and an integration flow on the embedded PGlite PostgreSQL engine (22 reported test results in the latest local run). PGlite exercises the PostgreSQL schema, SQL syntax, byte storage, named grants, search, revocation, audit triggers, and transaction/sequence behavior. It does **not** verify the live Neon network/TLS connection or Render deployment. Live application flows have now been manually checked by the candidate; a separate host-header/TLS review is still pending.
 
 `npm run test:mutations` changes temporary source copies and verifies that tests fail when document authorization, search filtering, session checks after request body arrival, or HMAC verification are removed. It does not modify the real source. Expected simulated audit-storage failures appear in test output; the corresponding test verifies that document changes roll back and downloads are refused.
 

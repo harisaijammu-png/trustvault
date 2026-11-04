@@ -20,9 +20,8 @@ No public sharing links, registration/reset UI, online previews, antivirus servi
 
 ## Current unfinished items
 
-- GitHub device authorization/push and visibility-timing clarification (repository verified private, remote configured).
-- Neon/Render setup and live connectivity/TLS verification.
-- Live restart durability, private-browser and second-device checks.
+- Remaining live security scenarios and host-header/TLS review (deployment, basic browser flows, restart persistence and mobile use are now candidate-verified).
+- Clarification of repository visibility timing with the placement cell.
 - Independent audit checkpoint retention and production backup recovery exercise.
 - Candidate's own code-change exercise, five-minute video and final form answers.
 

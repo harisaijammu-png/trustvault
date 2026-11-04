@@ -3,9 +3,26 @@
 ## 2026-11-04 deployment diagnosis
 
 - Render logs confirm the 3 November version built successfully with all 21 tests passing on Linux/Node 25.8.1.
-- Startup failed because the configured DATABASE_URL was an incomplete suffix. Private environment correction and live startup remain pending.
+- Startup failed because the configured DATABASE_URL was an incomplete suffix. The candidate subsequently corrected the private environment and confirmed live startup; see the manual results below.
 - Hardened invalid-URL errors to avoid echoing potentially sensitive input; added malformed-configuration coverage.
 - Updated local suite: 22 results passed after allowing connections to the tests' temporary loopback servers. Syntax checks passed.
+
+## 2026-11-04 live manual checks
+
+Source: candidate-operated browser sessions, pasted audit rows and screenshots in the working chat; these were not agent-run automated tests. Live URL: https://trustvault-3wp4.onrender.com/.
+
+- GitHub upload completed; the repository was verified private before upload.
+- Live sign-in initially rejected requests because APP_ORIGIN still used a provisional hostname. After setting the actual assigned origin, Alice signed in successfully.
+- Alice uploaded alice-test.txt; Bob's search without a grant returned no matching documents.
+- Alice granted Bob read access; Bob downloaded the file. Alice revoked the grant; the file disappeared from Bob's list. A later direct content request using Bob's authenticated browser was refused with Document unavailable.
+- Audit screenshot shows bob / request.refused / denied / status 404 at 12:49:38 local time, targeting document 2a71b1a4-e161-4a39-9f62-b25a51d54b32. This confirms refusal after revocation; a same-session click at the exact revoke moment was not separately demonstrated.
+- Alice then granted edit access; Bob replaced the file and Alice confirmed the changed contents. Audit screenshot records bob / document.replace / allowed at 12:57:01, version 2, followed by Alice's version-2 download.
+- Admin audit verification screenshot: valid=true, count=51, checkedAt=2026-11-04T07:35:20.663Z, head=72f3bf5433b6162a371def695e5c9ae91ab8f18073628a6d5002d2b64cba625f. Export was triggered; candidate must still confirm independent retention of the downloaded file. This checkpoint describes that time only, not the current growing log.
+- Candidate disabled Bob and demonstrated a refused sign-in, then re-enabled him and confirmed sign-in worked. Invalidation of an already-open Bob session has not yet been established by the live evidence.
+- After restarting the Render service, candidate downloaded the version-2 file with updated content; candidate reports earlier activity also remained.
+- Candidate reports successful use on a physical mobile device, including viewing activity records.
+
+These checks support the observed scenarios only. They do not establish that every route, device, role or adversarial case has been tested live.
 
 ## 2026-11-03 baseline
 
@@ -26,12 +43,13 @@
 
 ## Still pending
 
-- Private GitHub repository and remote configured; push pending device authorization. The initially empty repository was public, corrected to private before any code upload. No source was exposed.
-- Live Render/Neon connection including driver TLS behavior against a real server.
-- Live HTTPS cookies, headers, startup/restart durability and deployed security flows.
-- Private-window / another physical device checks.
-- Local narrow layout inspected at the browser's natural 510px width; a real phone and additional mobile widths still need checking.
-- PostgreSQL backup/export and recovery drill; independently retained audit checkpoints.
-- Candidate walkthrough/code exercise, actual video, profile and final submission.
+- Live refusal of ungranted administrator metadata/download access.
+- Live invalidation of an already-open session on account disable, including continued refusal after re-enable until a new login.
+- Live viewer-role and edit-grantee sharing/deletion refusal beyond hidden controls; automated route tests already cover these locally.
+- Separate live review of HTTPS, cookie flags, caching/security headers and invalid upload cases.
+- Confirm independently retained checkpoint file; PostgreSQL backup/export and recovery drill.
+- Put actual live demo credentials in README before submission, without publishing hosting/database secrets.
+- Candidate code-change exercise, explanation practice, five-minute video, personal write-up, profile and final submission.
+- Clarify public-repository timing with the placement cell.
 
-This record is local evidence only. Passing tests do not prove absence of all vulnerabilities.
+Passing tests and these manual checks do not prove absence of all vulnerabilities.

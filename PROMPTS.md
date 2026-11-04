@@ -14,7 +14,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** Both pages were visibly loaded and their complete requirements inspected. The actual security work and security-specific entries remain pending.
 
-**Correction commit:** [65ac38c](https://github.com/harisaijammu-png/trustvault/commit/65ac38c) (local; link will resolve after push).
+**Correction commit:** [65ac38c](https://github.com/harisaijammu-png/trustvault/commit/65ac38c).
 
 ## 2026-11-03 — Server access review
 
@@ -28,7 +28,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** The paused-body disable test passed in the first security test run.
 
-**Correction commit:** [af0ea95](https://github.com/harisaijammu-png/trustvault/commit/af0ea95) (local; link will resolve after push). The PostgreSQL adaptation now authenticates after bounded body receipt under a request-decision queue.
+**Correction commit:** [af0ea95](https://github.com/harisaijammu-png/trustvault/commit/af0ea95). The PostgreSQL adaptation now authenticates after bounded body receipt under a request-decision queue.
 
 ## 2026-11-03 — Upload size and encoding validation
 
@@ -40,7 +40,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Correction:** Bound encoded length first and validate decoding using a canonical base64 round-trip, avoiding nested repetition. The boundary test now returns 400 and passes.
 
-**Correction commit:** [af0ea95](https://github.com/harisaijammu-png/trustvault/commit/af0ea95) (local implementation containing the fix; link will resolve after push).
+**Correction commit:** [af0ea95](https://github.com/harisaijammu-png/trustvault/commit/af0ea95).
 
 ## 2026-11-03 — Hosting budget and persistent storage
 
@@ -110,7 +110,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** Local screenshots in docs/screenshots. These are not live or mobile-device checks.
 
-**Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1) (link will resolve after push); empty import removal was already included in `af0ea95`.
+**Correction commit:** [3b69ea1](https://github.com/harisaijammu-png/trustvault/commit/3b69ea1); empty import removal was already included in `af0ea95`.
 
 ## 2026-11-04 — Deployment configuration and secret-safe startup errors
 
@@ -124,7 +124,21 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Verification:** The first local full-suite attempt was blocked by restricted loopback connections (EACCES). Rerunning with local-server access passed all 22 test results, including the secret-safe configuration test. The user still needs to correct the private Render value and redeploy; no successful live startup is claimed.
 
-**Correction commit:** Pending current fix commit; will link the actual commit after creation.
+**Correction commit:** [1559d74](https://github.com/harisaijammu-png/trustvault/commit/1559d74).
+
+## 2026-11-04 — Correct deployed origin and evidence claims
+
+**Request:** Guide the candidate through live verification and record real day-by-day progress.
+
+**Output:** Initial setup used a provisional APP_ORIGIN before Render assigned the actual hostname. The app then rejected login requests on the assigned domain. Existing documents also still said upload and deployment were pending after they had been completed.
+
+**What was wrong:** The provisional setting needed replacement before login testing. Stale documentation no longer described observed behavior. A successful checkpoint verification also does not prove independent checkpoint retention, and a refused new sign-in does not alone prove an already-open session was invalidated.
+
+**Correction:** Guided the candidate to set APP_ORIGIN to https://trustvault-3wp4.onrender.com. Updated README, verification record and write-up worksheet with candidate-run evidence and specific remaining tests. Keep provisional settings and manual reports distinct from completed live verification.
+
+**Verification:** Candidate screenshots/reports show successful login, upload, direct revoked-download refusal and denied audit record, read/edit flows, replacement version 2, valid audit chain, disabled login refusal/re-enabled login success, restart persistence and physical-mobile activity access. Missing scenarios remain explicitly pending. No fresh automated run was needed for this documentation-only change.
+
+**Correction commit:** Recorded in this documentation commit's history.
 
 ## Reused instructions/context
 
