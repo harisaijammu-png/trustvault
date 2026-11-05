@@ -140,6 +140,20 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 
 **Correction commit:** Recorded in this documentation commit's history.
 
+## 2026-11-05 — Recovery verification and command safety
+
+**Request:** Complete the backup/restore exercise after Neon's historical preview repeatedly failed, without changing the live database.
+
+**Output:** Guided a disposable branch copy, installed/verified PostgreSQL 18.6 tools, produced an independent custom archive, and restored it into trustvault_restore_test.
+
+**What was wrong:** The provider preview failure prevented proving point-in-time recovery. Counts in a copied branch alone were not proof of a successful restore. Initial command preparation also had a mistyped expected checksum and a PowerShell native-argument expression that appended .AbsoluteUri literally to the URL. Those preflight attempts stopped before any database writes. A restricted browser command runner could not resolve the host.
+
+**Correction:** Verify the actual SHA256 against the original backup receipt; construct the native connection argument explicitly; use authorized PowerShell networking. Require the exact test database name and zero existing public tables before restoring, and use a single transaction with exit-on-error. Read current credentials privately from the user-authorized Neon panel, conceal them again, and remove temporary credential handoff data. Never restore to neondb or change Render to the test database.
+
+**Verification:** Restore completed with 3 documents, 4 users, 1 grant, 101 audit records, no size mismatches, no broken audit links and sample version 2. These are command-run results. HMAC verification/restored-app startup was not performed and is not claimed. Live administrator refusal and existing-session tests are recorded separately as candidate-run evidence.
+
+**Correction commit:** This recovery documentation commit records the commands' outcome; no application code changed.
+
 ## Reused instructions/context
 
 - Challenge email and official pages, summarized in REQUIREMENTS.md.

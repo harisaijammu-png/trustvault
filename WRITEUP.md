@@ -22,7 +22,7 @@ No public sharing links, registration/reset UI, online previews, antivirus servi
 
 - Remaining live security scenarios and host-header/TLS review (deployment, basic browser flows, restart persistence and mobile use are now candidate-verified).
 - Clarification of repository visibility timing with the placement cell.
-- Independent audit checkpoint retention and production backup recovery exercise.
+- Candidate reports saving a checkpoint independently. Logical production export and separate-test-database restore passed; full restored-application/HMAC validation and checkpoint comparison remain follow-ups.
 - Candidate's own code-change exercise, five-minute video and final form answers.
 
 Update this list as tasks are actually verified. Do not remove a limitation merely because configuration exists.

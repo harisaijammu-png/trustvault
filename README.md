@@ -69,6 +69,10 @@ Run **one application instance** against a database. Request decisions are seria
 
 `npm run test:mutations` changes temporary source copies and verifies that tests fail when document authorization, search filtering, session checks after request body arrival, or HMAC verification are removed. It does not modify the real source. Expected simulated audit-storage failures appear in test output; the corresponding test verifies that document changes roll back and downloads are refused.
 
+## Backup and recovery evidence
+
+On 5 November a production pg_dump archive was created on the candidate's computer and successfully restored with pg_restore into the verified-empty trustvault_restore_test database. Checks found 3 documents, 4 accounts, 1 grant, 101 audit records, matching file lengths and intact previous-hash links; the sample document remained version 2. The live neondb database was not modified. Full restored-app/HMAC validation remains a separate follow-up. Backup files and connection secrets are excluded from Git. See VERIFICATION.md for the precise scope.
+
 ## Project map
 
 | File | Purpose |
