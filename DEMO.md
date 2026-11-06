@@ -13,3 +13,10 @@ Record only after live deployment and checks. Show actual working behavior. Do n
 | 4:20–5:00 | PROMPTS.md correction, tests, unfinished list | Real AI mistakes caught; free hosting, accepted risks, things deliberately not built |
 
 Before recording, independently perform these actions yourself. Keep the video under five minutes and make the URL accessible to judges. Do not include another candidate or share your private repository with one.
+
+## November 6 recording rehearsal
+
+- Sign in as Alice and Vikram in separate browser sessions before recording. Use the fictional `alice-test.txt`.
+- Show Alice grant Read access, then switch to Vikram and download the file. Return to Alice, revoke the grant, and refresh Vikram's vault.
+- Open Alice's Activity tab and point out the download and revocation entries. Explain in your own words that the server checks access on each request.
+- Play back the saved video to check that the voice and on-screen text are clear.

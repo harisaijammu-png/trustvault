@@ -73,3 +73,9 @@ These checks support the observed scenarios only. They do not establish that eve
 - Clarify public-repository timing with the placement cell.
 
 Passing tests and these manual checks do not prove absence of all vulnerabilities.
+
+## 2026-11-06 viewer verification
+
+- On the live site, the candidate downloaded version 2 of `alice-test.txt` using Vikram's Read grant. Alice's Activity screenshot shows `viewer / document.download / allowed` at 21:57:02 IST.
+- The live direct edit request was skipped when the browser blocked console pasting. The local suite covers viewer edit denial. The candidate's final viewer refresh after revocation still needs confirmation.
+- The local suite was rerun and all 22 tests passed. The candidate confirmed screen recording was available and prepared the demo sequence.
