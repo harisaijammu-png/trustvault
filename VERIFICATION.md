@@ -79,3 +79,12 @@ Passing tests and these manual checks do not prove absence of all vulnerabilitie
 - On the live site, the candidate downloaded version 2 of `alice-test.txt` using Vikram's Read grant. Alice's Activity screenshot shows `viewer / document.download / allowed` at 21:57:02 IST.
 - The live direct edit request was skipped when the browser blocked console pasting. The local suite covers viewer edit denial. The candidate's final viewer refresh after revocation still needs confirmation.
 - The local suite was rerun and all 22 tests passed. The candidate confirmed screen recording was available and prepared the demo sequence.
+
+## 2026-11-07 final checks
+
+- Syntax checks passed. The full local suite passed all 22 tests after allowing local server connections. Four mutation checks caught removal of document authorization, list visibility, post-body session validation and audit HMAC verification.
+- Live automated permission checks completed at 09:44:51 UTC. Alice and Bob/viewer logins worked. Read access permitted inspection and refused category changes, replacement, sharing and deletion. Edit access permitted category changes and refused listing grants, sharing, revocation and deletion. All 12 assertions passed. Owner cleanup deleted the disposable test document successfully.
+- Live HTTPS requests to / and /health returned 200. Anonymous /api/session returned 401. All three responses included no-store/private caching, HSTS, CSP, nosniff, DENY framing and no-referrer.
+- Candidate screenshot records viewer download of version 2 at 11:52:29 local and Alice revocation at 11:58:54 on 7 November. File disappearance after refresh still requires explicit confirmation.
+- Candidate completed the profile and created a submission draft. A 1 minute 58 second video file exists, and the candidate reports clear audio. Its complete visual/spoken content has not been reviewed.
+- Full restored-application/HMAC validation, authenticated cookie inspection, broader proxy/host-header tests, repository visibility clarification and candidate explanation/code-change exercise remain pending.

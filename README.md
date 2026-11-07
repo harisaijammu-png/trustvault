@@ -25,7 +25,7 @@ Open http://localhost:3000. With no DATABASE_URL, the app creates `data/trustvau
 | viewer@trustvault.demo | Viewer | Learn-TrustVault-2026! |
 | admin@trustvault.demo | Administrator | Learn-TrustVault-2026! |
 
-These are deliberately shared demo accounts, never real staff accounts. Production requires an explicit DEMO_PASSWORD at first startup. **Before submission, add the actual live demonstration password here; the live URL is listed above.** Never reuse a personal password. Setting DEMO_PASSWORD again does not change an existing database's account passwords.
+These are deliberately shared demo accounts, never real staff accounts. Production requires an explicit DEMO_PASSWORD at first startup. **Live demonstration password for all four fictional accounts: Hsnsjkksvsbljskk.** Alice, Bob and viewer sign-ins were verified on 7 November. This password is published solely for evaluator access to fictional demonstration data. Never reuse a personal password. Setting DEMO_PASSWORD again does not change an existing database's account passwords.
 
 ## What works
 
@@ -65,7 +65,7 @@ Run **one application instance** against a database. Request decisions are seria
 
 ## Verification
 
-`npm test` runs the cross-user security suite on SQLite and an integration flow on the embedded PGlite PostgreSQL engine (22 reported test results in the latest local run). PGlite exercises the PostgreSQL schema, SQL syntax, byte storage, named grants, search, revocation, audit triggers, and transaction/sequence behavior. It does **not** verify the live Neon network/TLS connection or Render deployment. Live application flows have now been manually checked by the candidate; a separate host-header/TLS review is still pending.
+`npm test` runs the cross-user security suite on SQLite and an integration flow on the embedded PGlite PostgreSQL engine (22 reported test results in the latest local run). PGlite exercises the PostgreSQL schema, SQL syntax, byte storage, named grants, search, revocation, audit triggers, and transaction/sequence behavior. It does **not** verify the live Neon network/TLS connection or Render deployment. Live application flows have now been manually checked by the candidate; live HTTPS and response security headers were checked on 7 November. Broader proxy/host-header adversarial testing remains outside the verified scope.
 
 `npm run test:mutations` changes temporary source copies and verifies that tests fail when document authorization, search filtering, session checks after request body arrival, or HMAC verification are removed. It does not modify the real source. Expected simulated audit-storage failures appear in test output; the corresponding test verifies that document changes roll back and downloads are refused.
 
@@ -91,4 +91,4 @@ On 5 November a production pg_dump archive was created on the candidate's comput
 
 No self-registration, password reset UI, user provisioning UI, folder inheritance, anonymous/external links, online previews, antivirus service, historical version recovery, trash, MFA, OCR, or AI inside the product. Four seeded users are sufficient to demonstrate named-person permissions. Versions are counters and replacements; old bytes are not retained. Categories organize files without inherited access. Production uploads are capped at 40 documents per owner, 100 total, and 5 MB per document; audit/session storage still needs operational monitoring. Free tiers can sleep, pause or exhaust their quotas.
 
-The candidate must personally learn and modify the authorization code, record a truthful video, complete the profile, clarify repository visibility timing with the placement cell, and submit the form. No claim of being production-certified or error-free is made.
+The candidate has completed the profile, created a submission draft and recorded a sharing demonstration. The candidate still needs to review the video against the full requirements, explain and modify the authorization code, clarify repository visibility timing with the placement cell, complete personal form answers and submit. No claim of being production-certified or error-free is made.

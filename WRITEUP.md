@@ -26,3 +26,43 @@ No public sharing links, registration/reset UI, online previews, antivirus servi
 - Candidate's own code-change exercise, five-minute video and final form answers.
 
 Update this list as tasks are actually verified. Do not remove a limitation merely because configuration exists.
+
+## Form preparation updated 7 November
+
+Review these factual notes and write the personal answers in your own words.
+
+### 1. Problem solved
+
+Share documents with specific people, allow reading or editing separately, remove future access, and retain a record of allowed and refused actions.
+
+### 2. Working scope
+
+Four fictional accounts demonstrate owner, viewer and administrator roles. Owners upload, search, categorize, replace and delete documents, grant named Read/Edit access and revoke it. Administrators inspect audit records, verify/export checkpoints and disable accounts without automatic document access. Render hosts the app and Neon stores files, sessions and activity. Local tests and live permission checks are recorded in VERIFICATION.md.
+
+### 3. Exact local setup
+
+Install Node.js 25.8.1, then run these commands in order.
+
+```sh
+git clone --branch codex/trustvault https://github.com/harisaijammu-png/trustvault.git
+cd trustvault
+npm ci
+npm run check
+npm test
+npm run test:mutations
+npm start
+```
+
+Open http://localhost:3000 and use the local demo accounts/password listed in README. The default SQLite setup initializes automatically. A private repository requires authorized GitHub access until visibility is resolved. Hosted production uses PostgreSQL, while the local default uses SQLite.
+
+### 4. AI tools
+
+OpenAI Codex assisted with implementation, debugging, tests, documentation and deployment troubleshooting. AI generated much of the initial implementation. Candidate manual verification and understanding must be described separately.
+
+### 5. AI corrections to explain
+
+PROMPTS.md records actual changes and commit links. Examples include rechecking account/session state after receiving a request body, rejecting malformed/oversized upload encoding, choosing persistent PostgreSQL for free hosting and preserving audit correctness across PostgreSQL transaction behavior. The candidate must explain which issues they personally reproduced or understood. Do not claim that AI-written fixes were independently written by the candidate.
+
+### 6. Unfinished work and limitations
+
+No registration/password-reset UI, historical content recovery, antivirus service, MFA or independent automatic checkpoint retention. A downloaded copy cannot be withdrawn. Free hosting can sleep and quotas are limited. Full application/HMAC verification of the restored database remains pending. Some live adversarial checks remain outside the verified scope. Candidate explanation/code-change practice and complete video review remain pending.

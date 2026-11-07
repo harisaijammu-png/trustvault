@@ -1,6 +1,6 @@
 # Free deployment: private GitHub + Render + Neon
 
-Status: configuration and local database-engine tests prepared; cloud account setup and live checks are not yet completed.
+Status as of 7 November 2026: deployed on Render with Neon PostgreSQL. Candidate manual checks and automated live permission checks are recorded in VERIFICATION.md.
 
 ## 1. Repository
 
@@ -56,4 +56,4 @@ Render filesystem reference: [persistent disks and ephemeral storage](https://re
 
 For local SQLite, `npm run backup` creates a consistent database copy and checkpoint in ignored `backups/`. Preserve the development `data/audit.key` separately. To restore, stop the app, move the current `data` directory to a safe backup location, create a new `data` directory, copy the snapshot to `data/trustvault.db` and restore the original audit key. Restart, verify, and compare against an independently retained checkpoint. Never overwrite a live SQLite database or ignore its WAL file.
 
-For production PostgreSQL use the provider's export/restore facilities or `pg_dump` against the dedicated database and store exports securely outside the host. Do not use the SQLite backup script for PostgreSQL. Free restore/retention windows may be limited; a checkpoint is evidence, not a document backup. Preserve AUDIT_KEY outside the database backup. Test recovery on a separate database before relying on it. Cloud recovery remains unverified until performed.
+For production PostgreSQL use the provider's export/restore facilities or `pg_dump` against the dedicated database and store exports securely outside the host. Do not use the SQLite backup script for PostgreSQL. Free restore/retention windows may be limited; a checkpoint is evidence, not a document backup. Preserve AUDIT_KEY outside the database backup. Test recovery on a separate database before relying on it. An independent logical export and separate-database restore were completed on 5 November. Full restored-application/HMAC validation remains pending.

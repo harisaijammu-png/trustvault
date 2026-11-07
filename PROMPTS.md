@@ -161,3 +161,7 @@ This log records real work as it occurs. Pending items are not completed fixes. 
 - Negative test matrix and mutation checks reused after storage/security changes.
 - Candidate constraints: language basics, learning support, existing GitHub/Render experience, completely free hosting.
 - This log describes AI-generated code and assistant review/tests. It does not claim the candidate independently found every issue. No dates, mistakes, understanding or deployments are invented.
+
+## 2026-11-07 - Submission evidence review
+
+The candidate requested a final compliance check and completion of repository tasks. The review found stale deployment status, an outdated saved deadline and missing live demo credentials. AI assistance updated these records from actual results and candidate-provided portal screenshots, reran 22 local tests and four mutation checks, and exercised live reader/editor refusals with a disposable document. No claim is made that the candidate independently wrote the fixes. The video and personal understanding still need candidate review.

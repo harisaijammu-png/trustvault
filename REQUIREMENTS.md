@@ -1,7 +1,7 @@
 # TrustVault — challenge checklist
 
 Source: https://hackathon.snovasys.com/project/695 and https://hackathon.snovasys.com/event/2/instruction, read 2026-11-03.
-Deadline: 2026-11-07, 18:00 Asia/Kolkata.
+Original invitation deadline: 2026-11-07, 18:00 Asia/Kolkata. The candidate supplied portal screenshots on 7 November showing 2026-11-09, 18:00 for the RISE event. Confirm the changed deadline with the placement cell.
 
 ## Required application behavior
 
